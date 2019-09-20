@@ -1,5 +1,11 @@
 import { combineReducers } from 'redux';
+import recipeListReducer from '../components/ReсipeList/RecipeList.redux/reducer'
 
-const rootReducer = combineReducers({});
+const reducers ={};
+
+const rootReducer = combineReducers({
+    ...reducers,
+    recipeList: recipeListReducer
+});
 
 export default rootReducer;

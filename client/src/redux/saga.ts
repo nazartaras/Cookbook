@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects';
-import recipePage from '../components/RecipePage/saga'
+import recipeList from '../components/ReсipeList/RecipeList.redux/saga'
 
 
 export default function* rootSaga() {
-    yield all([recipePage()])
+    yield all([recipeList()])
 };

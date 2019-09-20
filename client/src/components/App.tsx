@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import RecipeList from './ReсipeList/RecipeList'
 import RecipePage from './RecipePage/RecipePage'
 import { Switch, Route } from 'react-router-dom';

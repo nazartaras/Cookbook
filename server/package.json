@@ -14,9 +14,11 @@
     "typescript": "^3.5.3"
   },
   "scripts": {
-    "start-server": "ts-node ./"
+    "start-server": "ts-node ./",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"  
   },
   "devDependencies": {
-    "prettier": "1.18.2"
+    "prettier": "1.18.2",
+    "tsconfig-paths": "^3.9.0"
   }
 }

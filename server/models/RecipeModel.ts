@@ -1,4 +1,4 @@
-export class Post {
+export class Recipe {
     id: string;
     title: string;
     description: string;
