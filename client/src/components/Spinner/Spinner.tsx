@@ -1,8 +1,9 @@
 import React from 'react';
+import './Spinner.scss'
 
 const Spinner = ()=>{
-    return <div>
-        <img src='https://icon-library.net/icon/spinner-icon-gif-10.html'/>
+    return <div className='spinner-wrp'>
+        <img src='https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif'/>
     </div>
 }
 export default Spinner;

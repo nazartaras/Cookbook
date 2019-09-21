@@ -9,6 +9,8 @@ import Spinner from '../Spinner/Spinner'
 import { TRecipe } from './Recipe'
 import RecipeListItem from './RecipeListItem/RecipeListItem'
 import './RecipeList.scss'
+import { Button } from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css';
 
 interface IRecipeListProps {
     recipes: TRecipe[];
@@ -19,10 +21,11 @@ const RecipeList = ({ recipes, sendRequest }: IRecipeListProps) => {
     if (!recipes) {
         sendRequest();
     }
-    return (recipes ? <div>
-        <NavLink to='/create'><button>Create Recipe</button></NavLink>
+
+    return (recipes ? <div className='main'>
+        <NavLink to='/create'><Button className='create-btn'>Create recipe</Button></NavLink>
         <div className='recipe-list'>
-        {recipes.map(item => <RecipeListItem recipe={item} key={item.id} />)}
+        {recipes.map(item => <NavLink to={`/list/${item.id}`} key={item.id}><RecipeListItem recipe={item} /></NavLink>)}
         </div>
     </div> : <Spinner />)
 }

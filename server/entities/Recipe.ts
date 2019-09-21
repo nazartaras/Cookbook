@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { RecipeHistory } from "./RecipeHistory";
 
 @Entity()
 export class Recipe {
@@ -13,10 +14,15 @@ export class Recipe {
 
     @Column()
     image_url: string;
-    
+
+    @OneToMany(type => RecipeHistory, recipeHistory => recipeHistory.recipe, {
+        onDelete: "CASCADE"
+    })
+    recipe_history: RecipeHistory[];
+
     @CreateDateColumn({ type: "timestamp" })
     created_at: Date;
 
     @UpdateDateColumn({ type: "timestamp" })
-    updated_at: Date; 
+    updated_at: Date;
 }

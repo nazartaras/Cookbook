@@ -1,0 +1,29 @@
+.recipe-list-history-item {
+  display: flex;
+  margin-bottom: 10px;
+
+  .recipe-list-history-item-image {
+    height: 100px;
+  }
+
+  .recipe-list-history-item-info {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .recipe-list-history-item-title {
+      font-weight: 600;
+    }
+
+    .recipe-list-history-item-description {
+      color: rgb(99, 97, 97);
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 40px;
+    }
+  }
+}

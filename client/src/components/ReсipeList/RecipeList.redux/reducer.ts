@@ -1,9 +1,11 @@
-import { SET_RECIPES, SET_NEW_RECIPE } from './actionTypes'
+import { SET_RECIPES, SET_NEW_RECIPE, SET_RECIPE_FOR_EDIT } from './actionTypes'
 
 const initialState:{
     recipes:any;
+    recipeInEdit:any
 } = {
-    recipes: null
+    recipes: null,
+    recipeInEdit:null
 }
 
 export default function (state = initialState, action) {
@@ -21,8 +23,14 @@ export default function (state = initialState, action) {
             } else {
                 return {
                     ...state,
-                    recipes: [...state.recipes, action.payload]
+                    recipes: [action.payload,...state.recipes]
                 }
+            }
+        }
+        case SET_RECIPE_FOR_EDIT:{
+            return{
+                ...state,
+                recipeInEdit:action.payload
             }
         }
         default:

@@ -1,11 +1,53 @@
 import React from 'react';
+import { fetchRecipeById } from './RecipePage.redux/actions'
+import { bindActionCreators } from 'redux';
+import Spinner from '../Spinner/Spinner';
+import { connect } from 'react-redux';
+import './RecipePage.scss';
+import Moment from 'react-moment';
+import RecipeHistoryList from './RecipeHistoryList/RecipeHistoryList';
 
-class RecipePage extends React.Component {
-    render(){
-        return <div>
-            HELLO
-        </div>
-    }
+interface IRecipePageProps {
+    recipe: any;
+    fetchRecipeById: (id: string) => void;
+    match: any;
 }
 
-export default RecipePage;
+const RecipePage = (props: IRecipePageProps) => {
+    const { recipe, fetchRecipeById } = props;
+    const currentRecipeId = props.match.params.id;
+    if (!recipe || recipe.id !== currentRecipeId) {
+        fetchRecipeById(currentRecipeId);
+        return <Spinner />
+    }
+
+    return <div className='recipe-page'>
+        <div className='recipe-page-current'>
+        <img className='recipe-page-image' src={recipe.image_url} />
+        <div className='recipe-page-info'>
+            <div className='recipe-page-title'>{recipe.title}</div>
+            <div className='recipe-page-date'>
+                <Moment format=" D.MM.YYYY" local={true}>{recipe.updated_at}</Moment>
+            </div>
+            <div className='recipe-page-description'>{recipe.description}</div>
+        </div>
+        </div>
+        <RecipeHistoryList history={recipe.recipe_history}/>
+    </div>
+}
+
+const mapStateToProps = (rootState, props) => ({
+    recipe: rootState.recipePage.recipe
+});
+
+const actions = {
+    fetchRecipeById
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RecipePage);

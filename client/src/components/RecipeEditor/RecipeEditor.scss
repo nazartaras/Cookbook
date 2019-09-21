@@ -1,0 +1,31 @@
+.recipe-creator{
+    grid-area: main;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 50px;
+
+    .creator-input{
+        margin-bottom:10px;
+    }
+
+    .creator-textarea{
+        height: 100px;
+    }
+    
+    .image-upload{
+        align-self: center;
+        margin: 40px;
+    }
+
+    .image-preview{
+        width: 500px;
+        align-self: center;
+        margin-bottom: 10px;
+    }
+
+    .btn-block{
+        align-self: flex-end;
+    }
+}
