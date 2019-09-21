@@ -9,5 +9,10 @@ router
             .getRecipes()
             .then(recipes => res.send(recipes))
             .catch(next))
+    .post('/create', (req, res, next) =>
+    recipeService
+        .createRecipe(req.body)
+        .then(recipes => res.send(recipes))
+        .catch(next))
 
 export default router;

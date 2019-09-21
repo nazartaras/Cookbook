@@ -9,6 +9,7 @@ import routes from "./controllers/root.controller"
 
 const app = express();
 
+app.use(express.static("public"));
 app.use(bodyParser.json());
 
 const SERVER_PORT = 5000;

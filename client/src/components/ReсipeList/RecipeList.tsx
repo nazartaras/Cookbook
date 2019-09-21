@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import Spinner from '../Spinner/Spinner'
 import { TRecipe } from './Recipe'
 import RecipeListItem from './RecipeListItem/RecipeListItem'
+import './RecipeList.scss'
 
 interface IRecipeListProps {
     recipes: TRecipe[];
@@ -19,8 +20,10 @@ const RecipeList = ({ recipes, sendRequest }: IRecipeListProps) => {
         sendRequest();
     }
     return (recipes ? <div>
-        <button>Create Recipe</button>
-        {recipes.map(item=><RecipeListItem recipe={item} key={item.id}/>)}
+        <NavLink to='/create'><button>Create Recipe</button></NavLink>
+        <div className='recipe-list'>
+        {recipes.map(item => <RecipeListItem recipe={item} key={item.id} />)}
+        </div>
     </div> : <Spinner />)
 }
 
