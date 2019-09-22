@@ -25,6 +25,7 @@ const RecipePage = (props: IRecipePageProps) => {
     const { recipe, fetchRecipeById, location, fetchHistoryRecipe } = props;
     const isHistory = location.pathname.split('/')[1] === 'history' ? true : false;
     const currentRecipeId = props.match.params.id;
+    
     if (!recipe && !isHistory || !isHistory && recipe.id !== currentRecipeId) {
         fetchRecipeById(currentRecipeId);
         return <Spinner />
