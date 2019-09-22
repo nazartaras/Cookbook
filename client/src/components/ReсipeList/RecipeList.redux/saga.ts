@@ -1,6 +1,7 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { FETCH_RECIPE, SET_RECIPES, ADD_NEW_RECIPE, SET_NEW_RECIPE, UPDATE_RECIPE, FETCH_RECIPE_FOR_EDIT, SET_RECIPE_FOR_EDIT, SHOW_SPINNER, HIDE_SPINNER, SAVE_CROPPED } from './actionTypes'
 import axios from 'axios'
+import { NULL_SELECTED } from '../../RecipePage/RecipePage.redux/actionTypes';
 
 export function* sendRequest() {
     try {
@@ -30,6 +31,7 @@ export function* updateRecipe(action) {
     try {
         yield call(axios.put, '/api/recipe/update', action.payload);
         yield put({ type: FETCH_RECIPE })
+        yield put({ type: NULL_SELECTED })
     } catch (e) {
         console.log(e);
     }
@@ -38,18 +40,18 @@ export function* updateRecipe(action) {
 export function* fetchRecipeForEdit(action) {
     try {
         yield put({
-            type:SHOW_SPINNER
+            type: SHOW_SPINNER
         })
         const recipe = yield call(axios.get, `/api/recipe/${action.payload}`)
         yield put({
-            type:SET_RECIPE_FOR_EDIT,
-            payload:recipe.data
+            type: SET_RECIPE_FOR_EDIT,
+            payload: recipe.data
         })
         yield put({
             type: SAVE_CROPPED
         })
         yield put({
-            type:HIDE_SPINNER
+            type: HIDE_SPINNER
         })
     } catch (e) {
         console.log(e);
