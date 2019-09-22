@@ -1,4 +1,4 @@
-import { FETCH_RECIPE, ADD_NEW_RECIPE, UPDATE_RECIPE, FETCH_RECIPE_FOR_EDIT } from './actionTypes'
+import { FETCH_RECIPE, ADD_NEW_RECIPE, UPDATE_RECIPE, FETCH_RECIPE_FOR_EDIT, SHOW_CROPPER, SAVE_CROPPED } from './actionTypes'
 
 
 export const sendRequest = () => {
@@ -7,23 +7,35 @@ export const sendRequest = () => {
     }
 }
 
-export const addRecipe = (recipe)=>{
+export const addRecipe = (recipe) => {
     return {
         type: ADD_NEW_RECIPE,
         payload: recipe
     }
 }
 
-export const updateRecipe = (recipe)=>{
+export const updateRecipe = (recipe) => {
     return {
         type: UPDATE_RECIPE,
         payload: recipe
     }
 }
 
-export const fetchRecipeForEdit = (id)=>{
+export const fetchRecipeForEdit = (id) => {
     return {
-        type:FETCH_RECIPE_FOR_EDIT,
+        type: FETCH_RECIPE_FOR_EDIT,
         payload: id
+    }
+}
+
+export const showCropper = () => {
+    return {
+        type: SHOW_CROPPER
+    }
+}
+
+export const saveCropped = () => {
+    return {
+        type:SAVE_CROPPED
     }
 }

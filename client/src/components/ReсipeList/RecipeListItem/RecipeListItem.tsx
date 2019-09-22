@@ -8,6 +8,7 @@ import {
     faCalendarAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import config from '../../../config'
 
 interface IRecipeListItemProps {
     recipe: TRecipe;
@@ -15,7 +16,7 @@ interface IRecipeListItemProps {
 
 const RecipeListItem = ({ recipe }: IRecipeListItemProps) => {
     return <div className='recipe-list-item'>
-        <img className='recipe-list-item-image' src={recipe.image_url} />
+        <img className='recipe-list-item-image' src={recipe.image_url?recipe.image_url:config.DEFAULT_RECIPE} />
         <div className='recipe-list-item-info'>
             <div className='recipe-list-item-title'>{recipe.title}</div>
             <div className='recipe-list-item-date'>

@@ -1,11 +1,15 @@
-import { SET_RECIPES, SET_NEW_RECIPE, SET_RECIPE_FOR_EDIT } from './actionTypes'
+import { SET_RECIPES, SET_NEW_RECIPE, SET_RECIPE_FOR_EDIT, SHOW_SPINNER, HIDE_SPINNER, SHOW_CROPPER, SAVE_CROPPED } from './actionTypes'
 
-const initialState:{
-    recipes:any;
-    recipeInEdit:any
+const initialState: {
+    recipes: any;
+    recipeInEdit: any;
+    isSpinner: boolean;
+    croppedSaved:boolean;
 } = {
     recipes: null,
-    recipeInEdit:null
+    recipeInEdit: null,
+    isSpinner: false,
+    croppedSaved:false
 }
 
 export default function (state = initialState, action) {
@@ -23,14 +27,38 @@ export default function (state = initialState, action) {
             } else {
                 return {
                     ...state,
-                    recipes: [action.payload,...state.recipes]
+                    recipes: [action.payload, ...state.recipes]
                 }
             }
         }
-        case SET_RECIPE_FOR_EDIT:{
+        case SET_RECIPE_FOR_EDIT: {
+            return {
+                ...state,
+                recipeInEdit: action.payload
+            }
+        }
+        case SHOW_SPINNER: {
+            return {
+                ...state,
+                isSpinner: true
+            }
+        }
+        case HIDE_SPINNER: {
+            return {
+                ...state,
+                isSpinner: false
+            }
+        }
+        case SHOW_CROPPER:{
             return{
                 ...state,
-                recipeInEdit:action.payload
+                croppedSaved:false
+            }
+        }
+        case SAVE_CROPPED:{
+            return {
+                ...state,
+                croppedSaved:true
             }
         }
         default:

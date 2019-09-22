@@ -4,8 +4,11 @@ import { bindActionCreators } from 'redux';
 import Spinner from '../Spinner/Spinner';
 import { connect } from 'react-redux';
 import './RecipePage.scss';
-import Moment from 'react-moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Moment from 'react-moment'
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 import RecipeHistoryList from './RecipeHistoryList/RecipeHistoryList';
+import config from '../../config'
 
 interface IRecipePageProps {
     recipe: any;
@@ -23,16 +26,20 @@ const RecipePage = (props: IRecipePageProps) => {
 
     return <div className='recipe-page'>
         <div className='recipe-page-current'>
-        <img className='recipe-page-image' src={recipe.image_url} />
-        <div className='recipe-page-info'>
-            <div className='recipe-page-title'>{recipe.title}</div>
-            <div className='recipe-page-date'>
-                <Moment format=" D.MM.YYYY" local={true}>{recipe.updated_at}</Moment>
+            <img className='recipe-page-image' src={recipe.image_url ? recipe.image_url : config.DEFAULT_RECIPE} />
+            <div className='recipe-page-info'>
+                <div className='recipe-page-title'>{recipe.title}</div>
+                <div className='recipe-page-date'>
+                    <FontAwesomeIcon
+                        icon={faCalendarAlt}
+                        className="fontAwesomeIcon"
+                    />
+                    <Moment format=" D.MM.YYYY" local={true}>{recipe.updated_at}</Moment>
+                </div>
+                <div className='recipe-page-description'>{recipe.description}</div>
             </div>
-            <div className='recipe-page-description'>{recipe.description}</div>
         </div>
-        </div>
-        <RecipeHistoryList history={recipe.recipe_history}/>
+        <RecipeHistoryList history={recipe.recipe_history} />
     </div>
 }
 

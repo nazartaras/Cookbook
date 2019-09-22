@@ -1,6 +1,6 @@
 import React from 'react'
 import ImageUploader from '../ImageUploader/ImageUploader'
-import { addRecipe, updateRecipe, fetchRecipeForEdit } from '../ReсipeList/RecipeList.redux/actions'
+import { addRecipe, updateRecipe, fetchRecipeForEdit, showCropper, saveCropped } from '../ReсipeList/RecipeList.redux/actions'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { uploadFile } from '../../service/file.service'
@@ -15,23 +15,29 @@ import {
     faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Spinner from '../Spinner/Spinner';
+import uuid from 'uuid';
 
 interface IRecipeEditorProps {
     addRecipe: (recipe: any) => void;
     updateRecipe: (recipe: any) => void;
-    fetchRecipeForEdit:(id:string) => void;
-    match:any;
+    fetchRecipeForEdit: (id: string) => void;
+    saveCropped: () => void;
+    showCropper: () => void;
+    match: any;
     isEdit?: boolean;
-    recipeInEdit:any;
+    recipeInEdit: any;
+    isSpinner: boolean;
+    croppedSaved: boolean;
 }
 
 interface IRecipeEditorState {
     recipe: {
+        id?: string;
         descriptionValue: string;
         titleValue: string;
         imageUrl: string;
-    },
-    croppedSaved: boolean
+    }
 }
 
 
@@ -39,8 +45,9 @@ interface IRecipeEditorState {
 class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorState>{
     private static convertToServer = (recipe) => {
         const convertedRecipe = {
-            title: recipe.titleValue,
-            description: recipe.descriptionValue,
+            id: uuid.v4(),
+            title: recipe.titleValue.trim(),
+            description: recipe.descriptionValue.trim(),
             image_url: recipe.imageUrl
         }
         return convertedRecipe;
@@ -49,17 +56,17 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
         super(props);
         this.state = {
             recipe: {
-                descriptionValue: this.props.recipeInEdit?this.props.recipeInEdit.description:'',
-                titleValue: this.props.recipeInEdit?this.props.recipeInEdit.title:'',
-                imageUrl: this.props.recipeInEdit?this.props.recipeInEdit.image_url:''
-            },
-            croppedSaved: this.props.recipeInEdit?true:false
+                descriptionValue: '',
+                titleValue: '',
+                imageUrl: ''
+            }
         }
         this.saveImage = this.saveImage.bind(this);
         this.onDescriptionChange = this.onDescriptionChange.bind(this);
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onSave = this.onSave.bind(this);
         this.onCancel = this.onCancel.bind(this);
+        this.onSaveRecipe = this.onSaveRecipe.bind(this);
     }
 
     private cropper = React.createRef<Cropper>();
@@ -67,6 +74,22 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
     componentDidMount() {
         if (this.props.match.params.id) {
             this.props.fetchRecipeForEdit(this.props.match.params.id)
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.recipeInEdit && nextProps.recipeInEdit.id !== prevState.recipe.id && nextProps.match.params.id) {
+            return {
+                recipe: {
+                    id: nextProps.recipeInEdit.id,
+                    descriptionValue: nextProps.recipeInEdit.description,
+                    titleValue: nextProps.recipeInEdit.title,
+                    imageUrl: nextProps.recipeInEdit.image_url
+                },
+                croppedSaved: true
+            };
+        } else {
+            return null;
         }
     }
 
@@ -113,9 +136,9 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
                                 recipe: {
                                     ...this.state.recipe,
                                     imageUrl: imageUrl
-                                },
-                                croppedSaved: true
-                            })
+                                }
+                            });
+                            this.props.saveCropped();
                         })
                         .catch(error => {
                             console.log(error);
@@ -136,70 +159,76 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
         })
     }
 
+    onSaveRecipe = ()=>{
+        if (!this.props.match.params.id) {
+            const newRecipe = RecipeEditor.convertToServer(this.state.recipe);
+            this.props.addRecipe(newRecipe);
+        }
+        if (this.props.match.params.id && this.props.recipeInEdit) {
+            let newRecipe = this.props.recipeInEdit;
+            newRecipe.title = this.state.recipe.titleValue.trim();
+            newRecipe.description = this.state.recipe.descriptionValue.trim();
+            newRecipe.image_url = this.state.recipe.imageUrl;
+            this.props.updateRecipe(newRecipe);
+        }
+    }
+
     render() {
         const { descriptionValue, titleValue, imageUrl } = this.state.recipe;
-        return <div className='recipe-creator'>
+        return (this.props.isSpinner ? <Spinner /> : (<div className='recipe-creator'>
             {
-                imageUrl && this.state.croppedSaved && <Image className='image-preview' src={imageUrl} />
+                imageUrl && this.props.croppedSaved && <Image className='image-preview' src={imageUrl} />
             }
             {
-                imageUrl && !this.state.croppedSaved && (<Cropper ref={this.cropper}
+                imageUrl && !this.props.croppedSaved && (<Cropper ref={this.cropper}
                     aspectRatio={1.77 / 1}
                     className="postconstr-img"
                     src={imageUrl} />)
             }
             {
-                imageUrl && !this.state.croppedSaved && (<span onClick={this.onSave}>
-                    <FontAwesomeIcon
-                        icon={faCheckCircle}
-                        className="fontAwesomeIcon"
-                    />
-                </span>)
-            }
-            {
-                imageUrl && !this.state.croppedSaved && (<span onClick={this.onCancel}>
-                    <FontAwesomeIcon
-                        icon={faTimesCircle}
-                        className={'fontAwesomeIcon'}
-                    />
-                </span>)
+                imageUrl && !this.props.croppedSaved && (
+                    <div className='cropper-btn'><span onClick={this.onSave}>
+                        <FontAwesomeIcon
+                            icon={faCheckCircle}
+                            className="fontAwesomeIcon"
+                        />
+                    </span>
+                        <span onClick={this.onCancel}>
+                            <FontAwesomeIcon
+                                icon={faTimesCircle}
+                                className={'fontAwesomeIcon'}
+                            />
+                        </span>
+                    </div>)
             }
 
             <div className='image-upload'>
-                <ImageUploader imageHandler={uploadFile} imageStateHandler={this.saveImage} isIcon={true} />
+                <ImageUploader showCropper={this.props.showCropper} imageHandler={uploadFile} imageStateHandler={this.saveImage} isIcon={true} />
             </div>
             <Input value={titleValue} className='creator-input' onChange={this.onTitleChange} placeholder='Enter title' />
             <Form className='creator-textarea'>
                 <TextArea value={descriptionValue} onChange={this.onDescriptionChange} placeholder='Enter description' />
             </Form>
             <div className='btn-block'>
-                <NavLink to='/'> <Button primary content='Save' disabled={this.state.recipe.descriptionValue && this.state.recipe.titleValue ? false : true} onClick={() => {
-                    if (!this.props.match.params.id) {
-                        const newRecipe = RecipeEditor.convertToServer(this.state.recipe);
-                        this.props.addRecipe(newRecipe);
-                    }
-                    if (this.props.match.params.id&&this.props.recipeInEdit) {
-                        let newRecipe = this.props.recipeInEdit;
-                        newRecipe.title = titleValue;
-                        newRecipe.description = descriptionValue;
-                        newRecipe.image_url = imageUrl;
-                        this.props.updateRecipe(newRecipe);
-                    }
-                }} /></NavLink>
+                <NavLink to='/'> <Button primary content='Save' disabled={this.state.recipe.descriptionValue.trim() && this.state.recipe.titleValue.trim() ? false : true} onClick={this.onSaveRecipe} /></NavLink>
                 <NavLink to='/'><Button content='Cancel' basic color='red' /></NavLink>
             </div>
-        </div>
+        </div>))
     }
 }
 
 const mapStateToProps = (rootState, props) => ({
-    recipeInEdit: rootState.recipeList.recipeInEdit
+    recipeInEdit: rootState.recipeList.recipeInEdit,
+    isSpinner: rootState.recipeList.isSpinner,
+    croppedSaved: rootState.recipeList.croppedSaved
 });
 
 const actions = {
     addRecipe,
     updateRecipe,
-    fetchRecipeForEdit
+    fetchRecipeForEdit,
+    saveCropped,
+    showCropper
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

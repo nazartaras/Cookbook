@@ -1,5 +1,5 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { FETCH_RECIPE, SET_RECIPES, ADD_NEW_RECIPE, SET_NEW_RECIPE, UPDATE_RECIPE, FETCH_RECIPE_FOR_EDIT, SET_RECIPE_FOR_EDIT } from './actionTypes'
+import { FETCH_RECIPE, SET_RECIPES, ADD_NEW_RECIPE, SET_NEW_RECIPE, UPDATE_RECIPE, FETCH_RECIPE_FOR_EDIT, SET_RECIPE_FOR_EDIT, SHOW_SPINNER, HIDE_SPINNER, SAVE_CROPPED } from './actionTypes'
 import axios from 'axios'
 
 export function* sendRequest() {
@@ -37,10 +37,19 @@ export function* updateRecipe(action) {
 
 export function* fetchRecipeForEdit(action) {
     try {
+        yield put({
+            type:SHOW_SPINNER
+        })
         const recipe = yield call(axios.get, `/api/recipe/${action.payload}`)
         yield put({
             type:SET_RECIPE_FOR_EDIT,
             payload:recipe.data
+        })
+        yield put({
+            type: SAVE_CROPPED
+        })
+        yield put({
+            type:HIDE_SPINNER
         })
     } catch (e) {
         console.log(e);

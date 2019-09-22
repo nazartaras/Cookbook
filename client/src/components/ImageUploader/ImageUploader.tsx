@@ -8,6 +8,7 @@ interface IImageUploaderProps {
 	imageStateHandler: (s: any) => any;
 	isIcon?: boolean;
 	icon?: any;
+	showCropper:()=>any;
 }
 
 interface IImageUploaderState {
@@ -66,6 +67,7 @@ class ImageUploader extends React.Component<
 					this.setState({ isUploading: false, errorMsg: error.message });
 				});
 		}
+		this.props.showCropper();
 		target.value = '';
 	}
 
