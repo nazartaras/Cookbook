@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web&display=swap");
+
+.recipe-page {
+  grid-area: main;
+  justify-self: center;
+  font-family: "Titillium Web", sans-serif;
+  padding-top: 100px;
+  padding-bottom: 20px;
+  width: 100%;
+
+  .recipe-page-current {
+    display: flex;
+    width: 100%;
+
+    .recipe-page-image {
+      width: 50%;
+    }
+
+    .recipe-page-info {
+      margin-left: 10px;
+      width: 40%;
+
+      .recipe-page-title {
+        font-size: 30px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        text-align: center;
+        line-height: 35px;
+        border-bottom: 1px solid black;
+      }
+
+      .recipe-page-description {
+        font-size: 16px;
+        color: rgb(99, 97, 97);
+      }
+      .recipe-page-secondary {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        .recipe-page-date {
+          margin-bottom: 15px;
+          color: rgb(99, 97, 97);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .recipe-page {
+    padding-top: 0px;
+
+    .recipe-page-current {
+      flex-direction: column;
+
+      .recipe-page-info {
+        margin-left: 0px;
+        width: 100%;
+      }
+
+      .recipe-page-image {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

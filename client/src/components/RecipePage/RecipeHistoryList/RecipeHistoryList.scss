@@ -1,0 +1,12 @@
+.recipe-history {
+  .recipe-history-header {
+    font-size: 24px;
+    text-align: center;
+    margin: 50px 0;
+  }
+
+  .recipe-history-list {
+    height: 300px;
+    overflow-y: scroll;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "cookbook",
+  "version": "1.0.0",
+  "description": "simple cookbook app",
+  "main": "index.js",
+  "scripts": {
+    "install": "(cd client && npm install) && (cd ../server && npm install)",
+    "server": "cd server && npm run start-server",
+    "client": "cd client && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nazartaras/Cookbook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nazartaras/Cookbook/issues"
+  },
+  "homepage": "https://github.com/nazartaras/Cookbook#readme"
+}

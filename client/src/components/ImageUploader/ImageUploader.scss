@@ -1,0 +1,34 @@
+
+.upload-image {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+
+	& + .upload-image-button {
+		height: 43px;
+		display: inline-flex;
+		align-items: center;
+		padding: 0 15px;
+		border: none;
+		outline: none;
+		font-weight: bold;
+		background-color: rgb(99, 97, 97);
+		color: white;
+		cursor: pointer;
+	}
+	&:focus + .upload-image-button,
+	& + .upload-image-button:hover {
+		background-color: rgb(75, 74, 74);
+	}
+	&:disabled + .upload-image-button {
+		pointer-events: none;
+		background-color: rgba(0, 0, 0, 0.11);
+	}
+}
+.upload-error {
+	color: rgba(255, 0, 0, 0.6);
+	padding: 0 15px;
+}

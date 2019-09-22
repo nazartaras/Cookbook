@@ -1,0 +1,15 @@
+.main {
+  grid-area: main;
+  justify-content: center;
+  padding-bottom: 30px;
+
+  .create-btn {
+    width: 100%;
+  }
+  .recipe-list {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 10px;
+  }
+}

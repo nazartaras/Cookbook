@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+
+.recipe-list-item {
+  box-shadow: 0 0 1px rgba(114, 113, 113, 0.726);
+  font-family: 'Titillium Web', sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5px;   
+
+  .recipe-list-item-image {
+    width: 100%;
+  }
+
+  .recipe-list-item-info {
+    padding: 10px;
+
+    .recipe-list-item-title {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .recipe-list-item-date{
+      padding-top: 2px;
+      border-top: 1px solid rgb(99, 97, 97);
+      color: rgb(99, 97, 97);
+    }
+
+    .recipe-list-item-description {
+      padding-top: 10px;
+      font-size: 14px;
+      line-height: 18px;
+      letter-spacing: 0.4px;
+      color: rgb(99, 97, 97);
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 50px;
+    }
+  }
+
+  .edit-btn{
+    align-self: flex-end;
+  }
+}

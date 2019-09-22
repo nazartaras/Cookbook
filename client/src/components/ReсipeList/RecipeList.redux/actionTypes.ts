@@ -1,0 +1,11 @@
+export const FETCH_RECIPE = "FETCH_RECIPE";
+export const SET_RECIPES = "SET_RECIPES";
+export const ADD_NEW_RECIPE = "ADD_NEW_RECIPE";
+export const SET_NEW_RECIPE = "SET_NEW_RECIPE";
+export const UPDATE_RECIPE = "UPDATE_RECIPE";
+export const FETCH_RECIPE_FOR_EDIT = "FETCH_RECIPE_FOR_EDIT";
+export const SET_RECIPE_FOR_EDIT = "SET_RECIPE_FOR_EDIT";
+export const SHOW_SPINNER = "SHOW_SPINNER";
+export const HIDE_SPINNER = "HIDE_SPINNER";
+export const SAVE_CROPPED = "SAVE_CROPPED";
+export const SHOW_CROPPER = "SHOW_CROPPER";

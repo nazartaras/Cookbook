@@ -1,0 +1,29 @@
+.root{
+    height: 100vh;
+    display: grid;
+    grid-template-areas:
+    "header header header"
+    "spaceL main spaceR";
+    grid-template-columns: 20% 60% 20%;
+    grid-template-rows: 90px 1fr;
+}
+
+a{
+    text-decoration: none;
+    color:black;
+    outline: none;
+}
+a:hover{
+    text-decoration: none;
+    color:black;
+}
+
+@media screen and (max-width:600px){
+    .root{
+        grid-template-areas: 
+        "header"
+        "main";
+        grid-template-columns: 1fr;
+        grid-template-rows: 90px 1fr;
+    }
+}
