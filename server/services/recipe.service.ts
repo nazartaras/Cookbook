@@ -8,10 +8,14 @@ export const createRecipe = async (recipe: Recipe): Promise<Recipe> => {
     return await getCustomRepository(RecipeRepository).save(recipe);
 }
 
+export const getHistoryRecipeById = async (id: string): Promise<RecipeHistory> => {
+    return await getCustomRepository(RecipeHistoryRepository).findOne({ where: { id: id } })
+}
+
 export const getRecipeById = async (id: string): Promise<Recipe> => {
     return await getCustomRepository(RecipeRepository).findOne({
         where: { id: id },
-        relations:["recipe_history"]
+        relations: ["recipe_history"]
     })
 }
 

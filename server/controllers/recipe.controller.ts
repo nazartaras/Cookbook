@@ -14,6 +14,11 @@ router
             .getRecipeById(req.params.id)
             .then(recipes => res.send(recipes))
             .catch(next))
+    .get('/history/:id', (req, res, next) =>
+        recipeService
+            .getHistoryRecipeById(req.params.id)
+            .then(recipes => res.send(recipes))
+            .catch(next))
     .post('/create', (req, res, next) =>
         recipeService
             .createRecipe(req.body)

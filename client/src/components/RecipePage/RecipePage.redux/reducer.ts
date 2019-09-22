@@ -1,5 +1,4 @@
 import { SET_SELECTED_RECIPE } from './actionTypes'
-import { any } from 'prop-types'
 
 const initialState = {
     recipe:null
