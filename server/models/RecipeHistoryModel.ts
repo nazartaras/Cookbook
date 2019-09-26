@@ -6,6 +6,7 @@ export class RecipeHistory {
     description: string;
     image_url: string;
     recipe:Recipe;
+    real_time:Date;
     created_at: Date;
     updated_at: Date;
 }

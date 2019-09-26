@@ -1,4 +1,4 @@
-import { Request, Router } from "express";
+import { Router } from "express";
 import { uploadFile } from '../services/image.service'
 
 const router = Router();

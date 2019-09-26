@@ -10,7 +10,7 @@ export const uploadFile = req =>
                 maxFilesSize: 1048576 * 3
             });
             form.parse(req, function (err, fields, files): any {
-                if (err) return reject(err);
+                if (err){ return reject(err);}
 
                 if (files.file) {
                     const imageUrl = files.file[0].path;

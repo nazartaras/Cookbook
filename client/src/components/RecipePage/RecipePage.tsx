@@ -13,6 +13,7 @@ import { NavLink } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
 
+
 interface IRecipePageProps {
     recipe: any;
     fetchRecipeById: (id: string) => void;
@@ -47,13 +48,13 @@ const RecipePage = (props: IRecipePageProps) => {
                             icon={faCalendarAlt}
                             className="fontAwesomeIcon"
                         />
-                        <Moment format=" D.MM.YYYY" local={true}>{recipe.updated_at}</Moment>
+                        <Moment format=" D.MM.YYYY HH:mm" local={true}>{recipe.updated_at}</Moment>
                     </div>
                     {!isHistory ?
                         <NavLink className='edit-btn' to={{
                             pathname: `/create/${recipe.id}`,
                             state: {
-                                recipe: recipe,
+                                recipe,
                                 isEdit: true
                             }
                         }}>

@@ -9,12 +9,12 @@ export const createRecipe = async (recipe: Recipe): Promise<Recipe> => {
 }
 
 export const getHistoryRecipeById = async (id: string): Promise<RecipeHistory> => {
-    return await getCustomRepository(RecipeHistoryRepository).findOne({ where: { id: id } })
+    return await getCustomRepository(RecipeHistoryRepository).findOne({ where: { id } })
 }
 
 export const getRecipeById = async (id: string): Promise<Recipe> => {
     return await getCustomRepository(RecipeRepository).findOne({
-        where: { id: id },
+        where: { id },
         relations: ["recipe_history"]
     })
 }
@@ -32,11 +32,10 @@ export const updateRecipe = async (recipe: Recipe): Promise<Recipe> => {
     await getCustomRepository(RecipeRepository).save(recipe);
     const saveToHistory = new RecipeHistory();
     saveToHistory.title = oldRecipe[0].title,
-        saveToHistory.description = oldRecipe[0].description,
-        saveToHistory.created_at = oldRecipe[0].created_at,
-        saveToHistory.image_url = oldRecipe[0].image_url,
-        saveToHistory.updated_at = oldRecipe[0].updated_at,
-        saveToHistory.recipe = await getCustomRepository(RecipeRepository).findOne({ id: recipe.id })
+    saveToHistory.description = oldRecipe[0].description,
+    saveToHistory.image_url = oldRecipe[0].image_url,
+    saveToHistory.real_time=oldRecipe[0].updated_at,
+    saveToHistory.recipe = await getCustomRepository(RecipeRepository).findOne({ id: recipe.id })
     await getCustomRepository(RecipeHistoryRepository).save(saveToHistory);
     return
 }   

@@ -8,5 +8,7 @@
   .recipe-history-list {
     height: 300px;
     overflow-y: scroll;
+    overflow-x:hidden;
+    max-width: 100%;
   }
 }
