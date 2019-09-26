@@ -6,4 +6,6 @@ export class Recipe {
     description: string;
     image_url: string;
     recipe_history:RecipeHistory[];
+    created_at: Date;
+    updated_at: Date;
 }
