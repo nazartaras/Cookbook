@@ -7,7 +7,6 @@ import { uploadFile } from '../../service/file.service'
 import { Input, Button, Image, TextArea, Form, Label } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import './RecipeEditor.scss'
-import { NavLink } from 'react-router-dom';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import {
@@ -216,7 +215,7 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
                     {this.props.match.params.id && this.props.recipeInEdit ?
                         <Label className="label" pointing='below'>Update title</Label> :
                         null}
-                    <Input value={titleValue} maxLength='32' className='creator-input' onChange={this.onTitleChange} placeholder='Enter title' />
+                    <Input value={titleValue} maxLength='32' className='creator-input' onChange={this.onTitleChange} placeholder='Enter title(32 chars max!!!)' />
                 </Form.Field>
                 <Form.Field>
                     {this.props.match.params.id && this.props.recipeInEdit ?

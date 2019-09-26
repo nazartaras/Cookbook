@@ -30,12 +30,16 @@ export const getRecipes = async (): Promise<Recipe[]> => {
 export const updateRecipe = async (recipe: Recipe): Promise<Recipe> => {
     const oldRecipe = await getCustomRepository(RecipeRepository).find({ where: { id: recipe.id } });
     await getCustomRepository(RecipeRepository).save(recipe);
-    const saveToHistory = new RecipeHistory();
-    saveToHistory.title = oldRecipe[0].title,
-    saveToHistory.description = oldRecipe[0].description,
-    saveToHistory.image_url = oldRecipe[0].image_url,
-    saveToHistory.real_time=oldRecipe[0].updated_at,
-    saveToHistory.recipe = await getCustomRepository(RecipeRepository).findOne({ id: recipe.id })
-    await getCustomRepository(RecipeHistoryRepository).save(saveToHistory);
+    await saveRecipeToHistory(oldRecipe[0], recipe);
     return
-}   
+}
+
+const saveRecipeToHistory = async (oldRecipe: Recipe, newRecipe:Recipe): Promise<RecipeHistory> => {
+    const saveToHistory = new RecipeHistory();
+    saveToHistory.title = oldRecipe.title;
+    saveToHistory.description = oldRecipe.description;
+    saveToHistory.image_url = oldRecipe.image_url;
+    saveToHistory.real_time = oldRecipe.updated_at;
+    saveToHistory.recipe = await getCustomRepository(RecipeRepository).findOne({ id: newRecipe.id });
+    return await getCustomRepository(RecipeHistoryRepository).save(saveToHistory);
+}
