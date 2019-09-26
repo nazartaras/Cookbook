@@ -25,7 +25,7 @@ const RecipeList = ({ recipes, sendRequest }: IRecipeListProps) => {
     return (recipes ? <div className='main'>
         <NavLink to='/create'><Button className='create-btn'>Create recipe</Button></NavLink>
         <div className='recipe-list'>
-        {recipes.map(item => <NavLink to={`/list/${item.id}`} key={item.id}><RecipeListItem recipe={item} /></NavLink>)}
+        {recipes.map(item => <NavLink to={`/list/${item.id}`} key={item.id} ><RecipeListItem recipe={item} /></NavLink>)}
         </div>
     </div> : <Spinner />)
 }

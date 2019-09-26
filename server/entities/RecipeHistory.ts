@@ -14,6 +14,9 @@ export class RecipeHistory {
 
     @Column()
     image_url: string;
+
+    @Column()
+    real_time:Date;
     
     @ManyToOne(type=>Recipe, recipe=>recipe.recipe_history, { onDelete:"CASCADE" })
     @JoinColumn()

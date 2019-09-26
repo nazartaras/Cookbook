@@ -4,7 +4,7 @@ import { addRecipe, updateRecipe, fetchRecipeForEdit, showCropper, saveCropped }
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { uploadFile } from '../../service/file.service'
-import { Input, Button, Image, TextArea, Form } from 'semantic-ui-react'
+import { Input, Button, Image, TextArea, Form, Label } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import './RecipeEditor.scss'
 import { NavLink } from 'react-router-dom';
@@ -25,10 +25,11 @@ interface IRecipeEditorProps {
     saveCropped: () => void;
     showCropper: () => void;
     match: any;
-    isEdit?: boolean;
     recipeInEdit: any;
     isSpinner: boolean;
     croppedSaved: boolean;
+    redirectUrl: string;
+    history: any;
 }
 
 interface IRecipeEditorState {
@@ -52,6 +53,9 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
         }
         return convertedRecipe;
     }
+
+    private cropper = React.createRef<Cropper>();
+
     constructor(props) {
         super(props);
         this.state = {
@@ -69,7 +73,7 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
         this.onSaveRecipe = this.onSaveRecipe.bind(this);
     }
 
-    private cropper = React.createRef<Cropper>();
+
 
     componentDidMount() {
         if (this.props.match.params.id) {
@@ -135,7 +139,7 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
                                 ...this.state,
                                 recipe: {
                                     ...this.state.recipe,
-                                    imageUrl: imageUrl
+                                    imageUrl
                                 }
                             });
                             this.props.saveCropped();
@@ -159,18 +163,19 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
         })
     }
 
-    onSaveRecipe = ()=>{
+    onSaveRecipe = () => {
         if (!this.props.match.params.id) {
             const newRecipe = RecipeEditor.convertToServer(this.state.recipe);
             this.props.addRecipe(newRecipe);
         }
         if (this.props.match.params.id && this.props.recipeInEdit) {
-            let newRecipe = this.props.recipeInEdit;
+            const newRecipe = this.props.recipeInEdit;
             newRecipe.title = this.state.recipe.titleValue.trim();
             newRecipe.description = this.state.recipe.descriptionValue.trim();
             newRecipe.image_url = this.state.recipe.imageUrl;
             this.props.updateRecipe(newRecipe);
         }
+        this.props.history.goBack();
     }
 
     render() {
@@ -203,15 +208,28 @@ class RecipeEditor extends React.Component<IRecipeEditorProps, IRecipeEditorStat
             }
 
             <div className='image-upload'>
-                <ImageUploader showCropper={this.props.showCropper} imageHandler={uploadFile} imageStateHandler={this.saveImage} isIcon={true} />
+                <ImageUploader showCropper={this.props.showCropper} imageHandler={uploadFile}
+                    imageStateHandler={this.saveImage} isIcon={true} />
             </div>
-            <Input value={titleValue} className='creator-input' onChange={this.onTitleChange} placeholder='Enter title' />
-            <Form className='creator-textarea'>
-                <TextArea value={descriptionValue} onChange={this.onDescriptionChange} placeholder='Enter description' />
+            <Form>
+                <Form.Field>
+                    {this.props.match.params.id && this.props.recipeInEdit ?
+                        <Label className="label" pointing='below'>Update title</Label> :
+                        null}
+                    <Input value={titleValue} maxLength='32' className='creator-input' onChange={this.onTitleChange} placeholder='Enter title' />
+                </Form.Field>
+                <Form.Field>
+                    {this.props.match.params.id && this.props.recipeInEdit ?
+                        <Label className="label" pointing='below'>Update description</Label> :
+                        null}
+                    <TextArea value={descriptionValue} onChange={this.onDescriptionChange} placeholder='Enter description' />
+                </Form.Field>
             </Form>
             <div className='btn-block'>
-                <NavLink to='/'> <Button primary content='Save' disabled={this.state.recipe.descriptionValue.trim() && this.state.recipe.titleValue.trim() ? false : true} onClick={this.onSaveRecipe} /></NavLink>
-                <NavLink to='/'><Button content='Cancel' basic color='red' /></NavLink>
+                <Button primary content='Save'
+                    disabled={this.state.recipe.descriptionValue.trim() && this.state.recipe.titleValue.trim() ? false : true}
+                    onClick={this.onSaveRecipe} />
+                <Button content='Cancel' basic color='red' onClick={this.props.history.goBack} />
             </div>
         </div>))
     }

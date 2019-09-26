@@ -73,7 +73,7 @@ class ImageUploader extends React.Component<
 
 	render() {
 		return (
-			<div className="extra-item">
+			<div title='Upload image' className="extra-item">
 				{this.state.errorMsg && (
 					<span className="upload-error">{this.state.errorMsg}</span>
 				)}

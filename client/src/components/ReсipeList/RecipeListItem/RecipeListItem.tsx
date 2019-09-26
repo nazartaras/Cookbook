@@ -24,7 +24,7 @@ const RecipeListItem = ({ recipe }: IRecipeListItemProps) => {
                     icon={faCalendarAlt}
                     className="fontAwesomeIcon"
                 />
-                <Moment format=" D.MM.YYYY" local={true}>{recipe.updated_at}</Moment>
+                <Moment format=" D.MM.YYYY HH:mm" local={true}>{recipe.updated_at}</Moment>
             </div>
             <div className='recipe-list-item-description'>{recipe.description}</div>
 
@@ -32,7 +32,7 @@ const RecipeListItem = ({ recipe }: IRecipeListItemProps) => {
         <NavLink className='edit-btn' to={{
             pathname: `/create/${recipe.id}`,
             state: {
-                recipe: recipe,
+                recipe,
                 isEdit: true
             }
         }}>

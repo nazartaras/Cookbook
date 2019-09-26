@@ -6,12 +6,16 @@
   width: 100%;
   padding: 50px;
 
+  .label{
+    font-size: 15px;
+  }
+
   .creator-input {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 
   .creator-textarea {
-    height: 100px;
+    min-height: 150px;
   }
 
   .image-upload {
@@ -26,6 +30,7 @@
   }
 
   .btn-block {
+    margin-top: 15px;
     align-self: flex-end;
   }
 
@@ -36,6 +41,16 @@
 
     &:hover{
         cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width:600px){
+  .recipe-creator{
+    padding: 5px;
+    
+    .image-upload{
+      margin: 15px;
     }
   }
 }
